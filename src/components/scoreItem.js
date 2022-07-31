@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import {SvgXml} from 'react-native-svg';
 import happySvg from '../images/happy.svg';
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
     height: 280,
     borderRadius: 25,
     overflow: 'hidden',
-    display: 'relative',
   },
   hoverScore: {
     shadowOffset: {width: 0, height: 0},
@@ -39,12 +39,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowColor: '#000',
   },
-  inner: {
+  innerWrapper: {
     width: 50,
-    borderRadius: 22,
+    borderRadius: 25,
     position: 'absolute',
     left: 0,
     bottom: 0,
+    overflow: 'hidden',
+  },
+  inner: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 22,
     borderWidth: 3,
     borderColor: '#fff',
   },
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
     left: 9,
     fontSize: 20,
     lineHeight: 27,
-    fontWeight: 500,
+    fontWeight: '500',
     color: '#fff',
   },
   icon: {
@@ -88,7 +94,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     lineHeight: 36,
-    fontWeight: 500,
+    fontWeight: '500',
     textAlign: 'center',
   },
 });
@@ -110,35 +116,49 @@ const ScoreItem = props => {
       }
     }
   };
+  const targetHeight = !item.score ? 87 : Math.ceil((item.score / 100) * 280);
+  const upAnimation = {
+    from: {
+      height: 0,
+    },
+    to: {
+      height: targetHeight,
+    },
+  };
   return (
     <View style={styles.item}>
       <View style={{...styles.score, ...(isHoverd ? styles.hoverScore : null)}}>
-        <LinearGradient
-          colors={getInnterGradient()}
-          style={{
-            ...styles.inner,
-            ...(item.score
-              ? isHoverd
-                ? item.score >= 90
-                  ? styles.happyHoverInner
-                  : styles.smileHoverInner
-                : null
-              : null),
-          }}
-          height={!item.score ? 87 : (item.score / 100) * 280}>
-          <Text style={styles.scoreText}>{item.score}</Text>
-          <View style={styles.icon}>
-            {!item.score
-              ? unknownIcon()
-              : item.score >= 90
-              ? isHoverd
-                ? hoverHappyIcon()
-                : happyIcon()
-              : isHoverd
-              ? hoverSmileIcon()
-              : smileIcon()}
-          </View>
-        </LinearGradient>
+        <Animatable.View
+          style={styles.innerWrapper}
+          animation={upAnimation}
+          duration={500}
+          delay={100}>
+          <LinearGradient
+            colors={getInnterGradient()}
+            style={{
+              ...styles.inner,
+              ...(item.score
+                ? isHoverd
+                  ? item.score >= 90
+                    ? styles.happyHoverInner
+                    : styles.smileHoverInner
+                  : null
+                : null),
+            }}>
+            <Text style={styles.scoreText}>{item.score}</Text>
+            <View style={styles.icon}>
+              {!item.score
+                ? unknownIcon()
+                : item.score >= 90
+                ? isHoverd
+                  ? hoverHappyIcon()
+                  : happyIcon()
+                : isHoverd
+                ? hoverSmileIcon()
+                : smileIcon()}
+            </View>
+          </LinearGradient>
+        </Animatable.View>
       </View>
       <View
         style={{

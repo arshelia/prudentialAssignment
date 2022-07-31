@@ -1,22 +1,25 @@
 import React, {Component} from 'react';
-import {TouchableWithoutFeedback, View, StyleSheet} from 'react-native';
-import {SvgXml} from 'react-native-svg';
-import backSvg from '../images/back.svg';
+import {View, StyleSheet} from 'react-native';
 import Profile from '../components/profile';
 import Records from '../components/records';
 
 const styles = StyleSheet.create({
   back: {
-    width: 27,
-    height: 20,
+    width: 50,
+    height: 50,
+    backgroundColor: 'red',
+  },
+  container: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#fff',
   },
   wrapper: {
     width: '100%',
     height: '100%',
-    padding: 12,
-    position: 'relative',
     backgroundColor: '#fff',
-    top: -199,
+    padding: 12,
+    marginTop: -199,
   },
 });
 
@@ -24,13 +27,10 @@ export default class MindRecord extends Component {
   static navigationOptions = {
     title: '历史心情指数',
     headerTintColor: '#2D2F33',
-    headerLeft: () => (
-      <TouchableWithoutFeedback onPress={this.backHandler}>
-        <View style={styles.back}>
-          <SvgXml width={27} height={20} xml={backSvg} />
-        </View>
-      </TouchableWithoutFeedback>
-    ),
+  };
+  backHandler = () => {
+    console.log('backHandler');
+    this.props.navigation.back();
   };
   state = {
     user: {
@@ -91,20 +91,15 @@ export default class MindRecord extends Component {
     this.getAverage(this.state.records);
   }
 
-  backHandler = () => {
-    console.log('backHandler');
-    this.props.navigation.back();
-  };
-
   render() {
     const {user, records, averageScore} = this.state;
     return (
-      <>
+      <View style={styles.container}>
         <Profile user={user} averageScore={averageScore} />
         <View style={styles.wrapper}>
           <Records records={records} />
         </View>
-      </>
+      </View>
     );
   }
 }

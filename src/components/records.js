@@ -6,8 +6,6 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 332,
-    padding: '0 12px',
-    position: 'relative',
   },
   top: {
     width: '100%',
@@ -21,7 +19,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 332,
     position: 'absolute',
-    padding: '0 12px',
     bottom: 0,
     left: 0,
     display: 'flex',

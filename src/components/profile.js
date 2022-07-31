@@ -2,9 +2,12 @@ import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
+  out: {
+    width: '100%',
+    padding: 12,
+  },
   contaienr: {
-    width: 'calc(100% - 24px)',
-    margin: 12,
+    width: '100%',
     height: 399,
     borderRadius: 24,
     backgroundColor: '#fff',
@@ -26,11 +29,11 @@ const styles = StyleSheet.create({
     color: '#2D2F33',
     fontSize: 20,
     lineHeight: 28,
-    fontWeight: 500,
+    fontWeight: '500',
   },
   score: {
     color: '#2D2F33',
-    fontWeight: 500,
+    fontWeight: '500',
     fontSize: 72,
     lineHeight: 98,
   },
@@ -44,13 +47,20 @@ const styles = StyleSheet.create({
 const Profile = props => {
   const {user, averageScore} = props;
   return (
-    <View style={styles.contaienr}>
-      <View style={styles.user}>
-        <Image source={user.avatar} width={36} height={36} borderRadius={18} />
-        <Text style={styles.userName}>{user.name}</Text>
+    <View style={styles.out}>
+      <View style={styles.contaienr}>
+        <View style={styles.user}>
+          <Image
+            source={user.avatar}
+            width={36}
+            height={36}
+            borderRadius={18}
+          />
+          <Text style={styles.userName}>{user.name}</Text>
+        </View>
+        <Text style={styles.score}>{averageScore}</Text>
+        <Text style={styles.subTitle}>周平均心情指数</Text>
       </View>
-      <Text style={styles.score}>{averageScore}</Text>
-      <Text style={styles.subTitle}>周平均心情指数</Text>
     </View>
   );
 };
