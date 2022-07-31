@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {SvgXml} from 'react-native-svg';
 import happySvg from '../images/happy.svg';
 import smileSvg from '../images/smile.svg';
@@ -25,16 +26,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  hoverItem: {
-    shadowOffset: {width: 0, height: 4},
-    shadowRadius: 10,
-    shadowOpacity: 0.15,
-    shadowColor: '#000',
-  },
   score: {
     width: 50,
     height: 280,
+    borderRadius: 25,
+    overflow: 'hidden',
     display: 'relative',
+  },
+  hoverScore: {
+    shadowOffset: {width: 0, height: 0},
+    shadowRadius: 5,
+    shadowOpacity: 0.15,
+    shadowColor: '#000',
   },
   inner: {
     width: 50,
@@ -45,24 +48,13 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#fff',
   },
-  grayInner: {
-    backgroundColor: '#CFCFCF',
-  },
-  happyInner: {
-    backgroundColor: '#FF823C',
-  },
   happyHoverInner: {
     borderWidth: 3,
     borderColor: '#FFE9D4',
-    background: 'linear-gradient(180deg, #FFA14A 35.42%, #FFCC4A 100%)',
-  },
-  smileInner: {
-    backgroundColor: '#52C873',
   },
   smileHoverInner: {
     borderWidth: 3,
     borderColor: '#DCFFD6',
-    background: 'linear-gradient(180deg, #42F373 42.71%, #A1FD44 100%)',
   },
   scoreText: {
     position: 'absolute',
@@ -78,25 +70,20 @@ const styles = StyleSheet.create({
     left: 4,
     bottom: 2,
   },
-  textHoverWrapper: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    shadowOffset: {width: 0, height: 4},
-    shadowRadius: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-  },
-  textCurrentWrapper: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    backgroundColor: '#2D2F33',
-  },
   textWrapper: {
     width: 36,
     height: 36,
     borderRadius: 8,
+  },
+  textHoverWrapper: {
+    shadowOffset: {width: 0, height: 0},
+    shadowRadius: 5,
+    shadowOpacity: 0.2,
+    shadowColor: '#000',
+    backgroundColor: '#fff',
+  },
+  textCurrentWrapper: {
+    backgroundColor: '#2D2F33',
   },
   title: {
     fontSize: 18,
@@ -106,31 +93,37 @@ const styles = StyleSheet.create({
   },
 });
 const ScoreItem = props => {
-  const {item} = props;
+  const {item, isHoverd} = props;
   const currentDay = new Date().getDay();
-  const [hover, setHover] = useState(false);
+  const getInnterGradient = () => {
+    if (!item.score) {
+      return ['#CFCFCF', '#CFCFCF', '#CFCFCF'];
+    } else {
+      if (item.score >= 90) {
+        return isHoverd
+          ? ['#FFA14A', '#FFCC4A']
+          : ['#FF823C', '#FF823C', '#FF823C'];
+      } else {
+        return isHoverd
+          ? ['#42F373', '#A1FD44']
+          : ['#52C873', '#52C873', '#52C873'];
+      }
+    }
+  };
   return (
-    <View
-      onMouseEnter={() => {
-        setHover(true);
-      }}
-      onMouseLeave={() => {
-        setHover(false);
-      }}
-      style={{...styles.item, ...(hover ? styles.hoverItem : null)}}>
-      <View style={styles.score}>
-        <View
+    <View style={styles.item}>
+      <View style={{...styles.score, ...(isHoverd ? styles.hoverScore : null)}}>
+        <LinearGradient
+          colors={getInnterGradient()}
           style={{
             ...styles.inner,
-            ...(!item.score
-              ? styles.grayInner
-              : item.score >= 90
-              ? hover
-                ? styles.happyHoverInner
-                : styles.happyInner
-              : hover
-              ? styles.smileHoverInner
-              : styles.smileInner),
+            ...(item.score
+              ? isHoverd
+                ? item.score >= 90
+                  ? styles.happyHoverInner
+                  : styles.smileHoverInner
+                : null
+              : null),
           }}
           height={!item.score ? 87 : (item.score / 100) * 280}>
           <Text style={styles.scoreText}>{item.score}</Text>
@@ -138,28 +131,29 @@ const ScoreItem = props => {
             {!item.score
               ? unknownIcon()
               : item.score >= 90
-              ? hover
+              ? isHoverd
                 ? hoverHappyIcon()
                 : happyIcon()
-              : hover
+              : isHoverd
               ? hoverSmileIcon()
               : smileIcon()}
           </View>
-        </View>
+        </LinearGradient>
       </View>
       <View
-        style={
-          hover
+        style={{
+          ...styles.textWrapper,
+          ...(isHoverd
             ? styles.textHoverWrapper
             : item.day === currentDay
             ? styles.textCurrentWrapper
-            : styles.textWrapper
-        }>
+            : null),
+        }}>
         <Text
           style={{
             ...styles.title,
             color:
-              hover && item.score
+              isHoverd && item.score
                 ? item.score >= 90
                   ? '#F36A1B'
                   : '#52C873'
