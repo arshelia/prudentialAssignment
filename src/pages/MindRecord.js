@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {SvgXml} from 'react-native-svg';
+import backSvg from '../images/back.svg';
 import Profile from '../components/profile';
 import Records from '../components/records';
 
 const styles = StyleSheet.create({
+  back: {
+    width: 27,
+    height: 20,
+    paddingHorizontal: 4,
+  },
   container: {
     width: '100%',
     height: '100%',
@@ -12,17 +19,28 @@ const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'transparent',
+    backgroundColor: '#fff',
     padding: 12,
     marginTop: -199,
   },
 });
 
 export default class MindRecord extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({navigation}) => ({
     title: '历史心情指数',
     headerTintColor: '#2D2F33',
-  };
+    headerLeft: () => (
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => {
+          navigation.goBack();
+        }}>
+        <View style={styles.back}>
+          <SvgXml width={27} height={20} xml={backSvg} />
+        </View>
+      </TouchableOpacity>
+    ),
+  });
   state = {
     user: {
       name: '李强',
