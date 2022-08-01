@@ -1,5 +1,6 @@
 # How to start?
 > please use ios
+
 - yarn install
 - cd ios && pod install && cd../
 - yarn start
@@ -23,4 +24,5 @@ When MindRecored page mounted, the ScoreItem need to be animated.
 
 ## 2.How do you provide the updated version quickly to the customer?
 > reference to http://code-push.cn/docs/1100.htm
+
 In App.js, add versionCheck function in `componentDidMount`.If we can get a new new version, leads customer to download new version.
