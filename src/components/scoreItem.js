@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
 const ScoreItem = props => {
   const {item, isHoverd} = props;
   const currentDay = new Date().getDay();
+  // get hovered gradient color
   const getInnterGradient = () => {
     if (!item.score) {
       return ['#CFCFCF', '#CFCFCF', '#CFCFCF'];
@@ -116,6 +117,7 @@ const ScoreItem = props => {
       }
     }
   };
+  // get animation when component mounted
   const targetHeight = !item.score ? 87 : Math.ceil((item.score / 100) * 280);
   const upAnimation = {
     from: {
@@ -172,14 +174,15 @@ const ScoreItem = props => {
         <Text
           style={{
             ...styles.title,
-            color:
-              isHoverd && item.score
-                ? item.score >= 90
-                  ? '#F36A1B'
-                  : '#52C873'
-                : item.day === currentDay
-                ? '#fff'
-                : '#2D2F33',
+            color: isHoverd
+              ? !item.score
+                ? '#CFCFCF'
+                : item.score >= 90
+                ? '#F36A1B'
+                : '#52C873'
+              : item.day === currentDay
+              ? '#fff'
+              : '#2D2F33',
           }}>
           {item.title}
         </Text>

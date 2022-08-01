@@ -4,11 +4,6 @@ import Profile from '../components/profile';
 import Records from '../components/records';
 
 const styles = StyleSheet.create({
-  back: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'red',
-  },
   container: {
     width: '100%',
     height: '100%',
@@ -17,7 +12,7 @@ const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     padding: 12,
     marginTop: -199,
   },
@@ -27,10 +22,6 @@ export default class MindRecord extends Component {
   static navigationOptions = {
     title: '历史心情指数',
     headerTintColor: '#2D2F33',
-  };
-  backHandler = () => {
-    console.log('backHandler');
-    this.props.navigation.back();
   };
   state = {
     user: {
