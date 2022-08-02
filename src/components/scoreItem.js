@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
 });
 const ScoreItem = props => {
-  const {item, isHoverd} = props;
+  const {item, isHoverd, index} = props;
   const currentDay = new Date().getDay();
   // get hovered gradient color
   const getInnterGradient = () => {
@@ -134,7 +134,7 @@ const ScoreItem = props => {
           style={styles.innerWrapper}
           animation={upAnimation}
           duration={500}
-          delay={100}>
+          delay={100 + 100 * index}>
           <LinearGradient
             colors={getInnterGradient()}
             style={{
