@@ -7,7 +7,7 @@
 - yarn ios
 
 # Online demo
-![demo](https://github.com/arshelia/prudentialAssignment/blob/main/demo.gif)
+![demo](https://github.com/arshelia/prudentialAssignment/blob/main/newdemo.gif)
 
 # Q&A
 ## 1.What are the technologist and why?

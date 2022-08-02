@@ -44,14 +44,18 @@ const Scores = props => {
     <View style={styles.container}>
       <View style={styles.top} />
       <View style={styles.itemWrapper}>
-        {records.map(item => (
+        {records.map((item, index) => (
           <TouchableOpacity
             onPress={() => pressHandler(item)}
             activeOpacity={1}
             style={styles.item}
             key={item.day}>
             <View>
-              <ScoreItem item={item} isHoverd={selectedDay === item.day} />
+              <ScoreItem
+                item={item}
+                isHoverd={selectedDay === item.day}
+                index={index}
+              />
             </View>
           </TouchableOpacity>
         ))}
